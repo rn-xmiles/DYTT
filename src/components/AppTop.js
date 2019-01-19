@@ -4,31 +4,45 @@
 
 import React, { PureComponent } from 'react';
 import {
-	StyleSheet,
+    StyleSheet,
     Text,
     TouchableOpacity,
-	View,
+    View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import LinearGradient from 'react-native-linear-gradient';
 import { BorderlessButton } from 'react-native-gesture-handler';
-import Touchable from './Touchable';
 
-export default ({ title,navigation,themeColor,children }) => (
-	<View style={[styles.appbar, { backgroundColor: themeColor }]}>
-        <BorderlessButton
-            activeOpacity={.8}
-			style={styles.btn}
-			onPress={navigation.openDrawer}
-		>
-			<Icon name='menu' size={20} color='#fff' />
-		</BorderlessButton>
-		<Text style={styles.apptitle} numberOfLines={1}>{title}</Text>
-		{ children || null }
-	</View>
-)
+export default class AppTop extends PureComponent {
+    onhandle = () => {
+        const { navigation, onPress, isBack } = this.props;
+        if(isBack){
+            navigation.goBack();
+        }else{
+            navigation.openDrawer();
+        }
+        onPress && onPress();
+    }
+    render() {
+        const { title, themeColor, children, isBack = false } = this.props;
+        return (
+            <LinearGradient colors={themeColor.length>1?themeColor:[...themeColor,...themeColor]} start={{x: 0, y: 0}} end={{x: 1, y: 0}} style={styles.appbar}>
+                <BorderlessButton
+                    activeOpacity={.8}
+                    style={styles.btn}
+                    onPress={this.onhandle}
+                >
+                    <Icon name={isBack ? 'chevron-left' : 'menu'} size={isBack ? 24 : 20} color='#fff' />
+                </BorderlessButton>
+                <Text style={styles.apptitle} numberOfLines={1}>{title}</Text>
+                {children || null}
+            </LinearGradient>
+        );
+    }
+}
 
 const styles = StyleSheet.create({
-	appbar: {
+    appbar: {
         paddingTop: $.STATUS_HEIGHT,
         flexDirection: 'row',
         alignItems: 'center',
