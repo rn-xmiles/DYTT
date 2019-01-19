@@ -32,12 +32,6 @@
 
 **本项目仅供学习交流使用，不得用于其他商业行为，数据来源于第三方网站，与本人无关！**
 
-**本项目仅供学习交流使用，不得用于其他商业行为，数据来源于第三方网站，与本人无关！**
-
-**本项目仅供学习交流使用，不得用于其他商业行为，数据来源于第三方网站，与本人无关！**
-
-重要的事情说三遍。
-
 重点是交流讨论`react native`技术，而不是资源为什么不全，因为这是第三方的。
 
 ## 为什么要重新开始呢
@@ -62,42 +56,6 @@
 
 [演示视频](https://web.codelabo.cn/demo/dytt.mp4)
 
-
-## 项目依赖
-
-依赖项不多，大部分都是用原生自带组件完成
-
-```json
-{
-  "name": "DYTT",
-  "version": "2.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
-  },
-  "dependencies": {
-    "react": "16.6.1",
-    "react-native": "0.57.5",
-    "react-native-gesture-handler": "^1.0.9",
-    "react-native-scrollviewpager": "^1.0.3",
-    "react-native-splash-screen": "^3.1.1",
-    "react-native-swiper": "^1.5.14",
-    "react-native-vector-icons": "^6.1.0",
-    "react-native-video": "^4.0.1",
-    "react-navigation": "^3.0.0"
-  },
-  "devDependencies": {
-    "babel-jest": "23.6.0",
-    "jest": "23.6.0",
-    "metro-react-native-babel-preset": "0.49.2",
-    "react-test-renderer": "16.6.1"
-  },
-  "jest": {
-    "preset": "react-native"
-  }
-}
-```
 
 ## 安装
 
@@ -130,6 +88,41 @@ react-native run-android
 ## 更新记录
 
 记录一些页面的关键点
+
+### 20190117
+
+主题重新设计，新增线性渐变主题
+
+采用[https://github.com/react-native-community/react-native-linear-gradient](https://github.com/react-native-community/react-native-linear-gradient)
+
+注意 `<LinearGradient colors={[color1,color2]} start={{x: 0, y: 0}} end={{x: 1, y: 0}} style={styles.appbar}>`
+
+`colors` 必须为长度大于 `2` 的数组。
+
+![主题设置](./screenshot/theme-new-1.jpg)
+
+![主题效果](./screenshot/theme-new.jpg)
+
+### 20190110
+
+热更新完成
+
+采用方案是[react-native-code-push](https://github.com/Microsoft/react-native-code-push)
+
+![code-push](./screenshot/code-push.png)
+
+常用命令
+
+```shell
+# 列出账号下的所有项目
+code-push app list
+# 列出应用的部署
+code-push deployment ls dyttAndroid
+# 列出应用的版本历史
+code-push deployment history dyttAndroid Production
+# 发布更新
+code-push release-react dyttAndroid android --t 2.0.0 --dev false --d Production --des "1.修复了已知BUG\n 2.测试code push" --m true
+```
 
 ### 20190104
 
@@ -547,59 +540,65 @@ const tabBarOptions = (themeColor) => ({
 
 安卓
 
-### 欢迎页
-
-![欢迎页](./screenshot/0.png)
-
-### 首页
-
-![首页](./screenshot/1.png)
-
-### 功能菜单
-
-![功能菜单](./screenshot/2.png)
-
-### 历史记录
-
-![历史记录](./screenshot/3.png)
-
-### 收藏
-
-![收藏](./screenshot/4.png)
-
-### 主题颜色
-
-![主题颜色](./screenshot/5.png)
-
-### 搜索
-
-![搜索](./screenshot/6.png)
-
-### 搜索结果
-
-![搜索结果](./screenshot/7.png)
-
-### 影片筛选
-
-![影片筛选](./screenshot/8.png)
-
-### 影片详情
-
-![影片详情](./screenshot/9.png)
-
-### 影片播放
-
-![影片播放](./screenshot/10.png)
+<table>
+    <tr>
+        <th>欢迎页</th>
+        <th>首页</th>
+    </tr>
+    <tr>
+        <td><img src="./screenshot/0.png"/></td>
+        <td><img src="./screenshot/1.png"/></td>
+    </tr>
+    <tr>
+        <th>功能菜单</th>
+        <th>历史记录</th>
+    </tr>
+    <tr>
+        <td><img src="./screenshot/2.png"/></td>
+        <td><img src="./screenshot/3.png"/></td>
+    </tr>
+    <tr>
+        <th>收藏</th>
+        <th>主题颜色</th>
+    </tr>
+    <tr>
+        <td><img src="./screenshot/4.png"/></td>
+        <td><img src="./screenshot/5.png"/></td>
+    </tr>
+    <tr>
+        <th>搜索</th>
+        <th>搜索结果</th>
+    </tr>
+    <tr>
+        <td><img src="./screenshot/6.png"/></td>
+        <td><img src="./screenshot/7.png"/></td>
+    </tr>
+    <tr>
+        <th>影片筛选</th>
+        <th>影片详情</th>
+    </tr>
+    <tr>
+        <td><img src="./screenshot/8.png"/></td>
+        <td><img src="./screenshot/9.png"/></td>
+    </tr>
+    <tr>
+        <th>影片播放</th>
+    </tr>
+    <tr>
+        <td><img src="./screenshot/10.png"/></td>
+    </tr>
+</table>
 
 ## 还未完成的还接下来要做的
 
-* ~~视频播放做全屏切换~~
+* ~~视频播放做全屏切换~~（已完成）
 * 没有适配`ios`，不过代码中没有使用安卓专有的库，理论上可以直接运行（可能有少部分需要适配），有兴趣的小伙伴可以`fork`下来自己适配一下
-* 会新增设置选项，进行网络设置，播放设置等（正在进行中...会参考其他视频软件的功能）
+* ~~会新增设置选项，进行网络设置，播放设置等（会参考其他视频软件的功能）~~（已完成）
 * 目前历史记录和收藏均保存在本地，意味着如果卸载app将导致数据丢失，如果可能的话，将来把数据保存在自己的服务器上
 * `react-navigation`在页面切换时略微卡顿，还有一个`react-native-navigation`，如果可能的话，可以用来替代`react-navigation`
 * ~~目前在网上找的`api`可能不够理想~~（已采用本地爬虫方式），如果谁有更好的设计和更好的`api`可以参考一下~如果有提供后台服务的就更好了
 * `react-native`确实性能略显不足，特别是长列表的情况，准备学习`flutter`，一种新的渲染方式（可以和web中的`canvas`类比）
+* 热更新功能
 
 ## 联系方式
 
