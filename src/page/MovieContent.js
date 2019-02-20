@@ -25,80 +25,16 @@ import AppTop from '../components/AppTop';
 import Loading from '../components/Loading';
 import MovieList from '../components/MovieList';
 import { GetPageList } from '../../util/api';
-
+import  { CommonList,Categories } from '../../util/categories';
 const { UIManager } = NativeModules;
-
-const nowYear = new Date().getFullYear();
-
-const CommonList = [
-    {
-        name: "地区",
-        icon: 'map-pin',
-        cate: 'Area',
-        type: ["大陆", "美国", "加拿大", "香港", "韩国", "日本", "台湾", "泰国", "西班牙", "法国", "印度", "英国"]
-    },
-    {
-        name: "年份",
-        icon: 'calendar',
-        cate: 'Year',
-        type: [nowYear, nowYear - 1, nowYear - 2, nowYear - 3, nowYear - 4, nowYear - 5, nowYear - 6, nowYear - 7, nowYear - 8, nowYear - 9, nowYear - 10]
-    }
-]
-
-const Categories = {
-    movie: [
-        {
-            name: "分类",
-            icon: 'layers',
-            cate: 'Channel',
-            type: ["动作片", "喜剧片", "爱情片", "科幻片", "恐怖片", "剧情片", "战争片"]
-        },
-        {
-            name: "剧情",
-            icon: 'compass',
-            cate: 'Plot',
-            type: ["惊悚", "悬疑", "魔幻", "犯罪", "灾难", "动画", "古装", "歌舞"]
-        }
-    ],
-    tv: [
-        {
-            name: "分类",
-            icon: 'layers',
-            cate: 'Channel',
-            type: ["韩剧", "剧情", "欧美剧", "日剧", "台剧", "泰剧"]
-        },
-        {
-            name: "剧情",
-            icon: 'compass',
-            cate: 'Plot',
-            type: ["言情", "都市", "家庭", "偶像", "喜剧", "古装", "武侠", "刑侦", "战争", "神话", "军旅", "校园", "悬疑"]
-        }
-    ],
-    comic: [
-        {
-            name: "剧情",
-            icon: 'compass',
-            cate: 'Plot',
-            type: ["冒险", "热血", "搞笑", "少女", "推理"]
-        }
-    ],
-    variety: [
-        {
-            name: "剧情",
-            icon: 'compass',
-            cate: 'Plot',
-            type: ["喜剧", "家庭", "家庭", "运动", "真人秀", "脱口秀"]
-        }
-    ]
-}
 
 class DrawerContent extends PureComponent {
 
     constructor(props) {
         super(props);
         this.state = {
-            Channel: props.state.Channel,
             Plot: props.state.Plot,
+            Status: props.state.Status,
             Area: props.state.Area,
             Year: props.state.Year,
             isVisible:false
@@ -113,16 +49,18 @@ class DrawerContent extends PureComponent {
     }
 
     setVisibel = () => {
+        /*
         if(this.props.type==='movie'){
             this.setType('isVisible',true);
         }
+        */
     }
 
     onSubmit = () => {
-        const { Channel, Plot, Area, Year } = this.state;
+        const { Status, Plot, Area, Year } = this.state;
         const { setType, closeDrawer } = this.props;
         closeDrawer();
-        setType({ Channel, Plot, Area, Year });
+        setType({ Status, Plot, Area, Year });
     }
 
     componentDidMount() {
@@ -154,15 +92,11 @@ class DrawerContent extends PureComponent {
                                     <Text style={[styles.typetitletxt, { color: themeColor[0] }]}>{d.name}</Text>
                                 </View>
                                 <View style={styles.typecon}>
-                                    <BorderlessButton disabled={this.state[d.cate] == ''} onPress={() => this.setType(d.cate, '')} style={styles.typeitem}><Text style={[styles.typeitemtxt, this.state[d.cate] == '' && { color: themeColor[0] }]}>全部</Text></BorderlessButton>
+                                    <BorderlessButton disabled={this.state[d.cate].id == ''} onPress={() => this.setType(d.cate, {name:'',id:''})} style={styles.typeitem}><Text style={[styles.typeitemtxt, this.state[d.cate].id == '' && { color: themeColor[0] }]}>全部</Text></BorderlessButton>
                                     {
                                         d.type.map((el, j) => (
-                                            <BorderlessButton disabled={this.state[d.cate] === el} onPress={() => this.setType(d.cate, el)} key={j} style={styles.typeitem}><Text style={[styles.typeitemtxt, el == this.state[d.cate] && { color: themeColor[0] }]}>{el}</Text></BorderlessButton>
+                                            <BorderlessButton disabled={this.state[d.cate].id === el.id} onPress={() => this.setType(d.cate, el)} key={j} style={styles.typeitem}><Text style={[styles.typeitemtxt, el.id == this.state[d.cate].id && { color: themeColor[0] }]}>{el.name}</Text></BorderlessButton>
                                         ))
-                                    }
-                                    {
-                                        d.cate==='Channel'&&isVisible&&
-                                        <BorderlessButton disabled={this.state[d.cate] == '伦理'} onPress={() => this.setType(d.cate, '伦理')} style={styles.typeitem}><Text style={[styles.typeitemtxt, this.state[d.cate] == '伦理' && { color: themeColor[0] }]}>伦理</Text></BorderlessButton>
                                     }
                                 </View>
                             </View>
@@ -188,7 +122,7 @@ const CategoryTop = ({state,type,openDrawer,themeColor}) => (
             [...Categories[type], ...CommonList].map((d, i) => (
                 <BorderlessButton onPress={openDrawer} style={styles.typetopitem} key={i}>
                     <Icon name={d.icon} size={16} color={themeColor[0]} />
-                    <Text style={[styles.typetoptxt, { color: themeColor[0] }]}>{state[d.cate] || d.name}</Text>
+                    <Text style={[styles.typetoptxt, { color: themeColor[0] }]}>{state[d.cate].name || d.name}</Text>
                 </BorderlessButton>
             ))
         }
@@ -208,17 +142,29 @@ export default class extends PureComponent {
             data: [],
             isRender: false,
             isEnding: false,
-            Channel: '',
-            Plot: '',
-            Area: '',
-            Year: ''
+            Status: {
+                name:'',
+                id:''
+            },
+            Plot: {
+                name:'',
+                id:''
+            },
+            Area: {
+                name:'',
+                id:''
+            },
+            Year: {
+                name:'',
+                id:''
+            }
         }
     }
 
     openDrawer = () => {
-        const { Channel, Plot, Area, Year } = this.state;
+        const { Status, Plot, Area, Year } = this.state;
         this.drawer.openDrawer();
-        this.drawerContent.setState({ Channel, Plot, Area, Year });
+        this.drawerContent.setState({ Status, Plot, Area, Year });
     }
 
     closeDrawer = () => {
@@ -240,15 +186,15 @@ export default class extends PureComponent {
     }
 
     getData = async () => {
-        const { Channel, Plot, Area, Year } = this.state;
-        const data = await GetPageList({ pageIndex: this.page, pageSize: this.pageSize, Type:this.type, Channel, Area, Plot, Year,orderBy:'new' });
+        const { Status, Plot, Area, Year } = this.state;
+        const data = await GetPageList({ pageIndex: this.page, pageSize: this.pageSize, Type:this.type, Status:Status.id, Area:Area.id, Plot:Plot.id, Year:Year.id,orderBy:'addtime' });
         if(this.mounted){
             LayoutAnimation.easeInEaseOut();
             this.setState({
                 data: [...this.state.data, ...data],
                 isRender: true,
             })
-            if (data.length == 0) {
+            if (data.length < 25) {
                 this.setState({
                     isEnding: true
                 })
@@ -304,7 +250,7 @@ export default class extends PureComponent {
     render() {
         const { navigation, screenProps: { themeColor } } = this.props;
         const { title, type } = navigation.state.params;
-        const { Channel, Plot, Area, Year, isRender, data, isEnding } = this.state;
+        const { Status, Plot, Area, Year, isRender, data, isEnding } = this.state;
         return (
             <DrawerLayout
                 drawerPosition={DrawerLayout.positions.Right}
@@ -314,7 +260,7 @@ export default class extends PureComponent {
                 onDrawerOpen={this.onDrawerOpen}
                 onDrawerClose={this.onDrawerClose}
                 drawerWidth={$.WIDTH * .8}
-                renderNavigationView={() => <DrawerContent ref={drawer => this.drawerContent = drawer} themeColor={themeColor} closeDrawer={this.closeDrawer} type={type} state={{ Channel, Plot, Area, Year }} setType={this.setType} />}
+                renderNavigationView={() => <DrawerContent ref={drawer => this.drawerContent = drawer} themeColor={themeColor} closeDrawer={this.closeDrawer} type={type} state={{ Status, Plot, Area, Year }} setType={this.setType} />}
             >
                 <View style={[styles.content, styles.bg]}>
                     <AppTop navigation={navigation} themeColor={themeColor} title={title} isBack={true} >
@@ -322,7 +268,7 @@ export default class extends PureComponent {
                             <Icon name='filter' size={18} color='#fff' />
                         </BorderlessButton>
                     </AppTop>
-                    <CategoryTop openDrawer={this.openDrawer} type={type} state={{ Channel, Plot, Area, Year }} themeColor={themeColor} />
+                    <CategoryTop openDrawer={this.openDrawer} type={type} state={{ Status, Plot, Area, Year }} themeColor={themeColor} />
                     {
                         isRender ?
                             <MovieList style={{paddingHorizontal:5}} isRender={true} isEnding={isEnding} data={data} navigation={navigation} themeColor={themeColor[0]} onEndReached={this.loadMore} />
