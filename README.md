@@ -2,14 +2,23 @@
 
 ![电影天堂](./screenshot/logo.jpg)
 
+<a href="https://github.com/XboxYan/DYTT/releases"><img alt="GitHub release" src="https://img.shields.io/github/release/XboxYan/DYTT.svg?color=blu"></a>
+<a href="https://github.com/XboxYan/DYTT/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/XboxYan/DYTT.svg"></a>
+<a href="https://github.com/XboxYan/DYTT/network/members"><img alt="GitHub forks" src="https://img.shields.io/github/forks/XboxYan/DYTT.svg"></a>
+<a href="https://github.com/XboxYan/DYTT/releases"><img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/XboxYan/DYTT/total.svg?color=yellow"></a>
+
 第三方电影天堂 React Native 客户端 V2.0
 
-#### [更新记录](./update.md)
+### [更新记录](./update.md)
+
+## 公告
+
+😄 已完成数据源更新解析，现在请求一切正常。
 
 ## 目录
 
 -   [免责声明](#免责声明)
--   [为什么要重新开始呢](#为什么要重新开始呢)
+-   [缘由](#缘由)
 -   [特色](#特色)
 -   [项目依赖](#项目依赖)
 -   [安装](#安装)
@@ -19,19 +28,11 @@
 -   [联系方式](#联系方式)
 -   [打赏](#打赏)
 
-## 公告
-
-~~😢 很抱歉，该项目的数据来源网站停止运行了，详细数据源可参考`api.js`，应该是受到了打击盗版网站的影响。~~
-
-~~不过业务逻辑对于`react native`学习交流没什么问题，如果有合适的接口数据我会尽快适配。~~
-
-😄 已完成数据源更新解析，现在请求一切正常。
-
 ## 免责声明
 
 **本项目仅供学习交流使用，不得用于其他商业行为，数据来源于第三方网站，与本人无关！**
 
-重点是交流讨论`react native`技术，而不是资源为什么不全，因为这是第三方的。
+重点是交流讨论`react native`技术，而不是资源为什么不全，因为这是第三方的，我也没有上服务器，纯本地解析。
 
 ## 缘由
 
@@ -49,11 +50,9 @@
 
 大概是全网个人影视类项目最漂亮、体验最好的了吧（下方有[截图](#相关截图)~）。
 
-做为一名偏体验偏设计的前端开发者，对界面和用户体验都有极高的重视。
-
-（见过很多类似的第三方应用，功能算是出来了，但是界面一看就是程序员风格）
-
 [演示视频](https://web.codelabo.cn/demo/dytt.mp4)
+
+（见过很多类似的第三方应用，功能算是出来了，但是界面一看就是程序员风格，不忍直视，毕竟一般都是做后台的才会做这些，天生就对 UI 和体验没什么感觉）
 
 ## 安装
 
@@ -83,7 +82,7 @@ react-native run-android
 
 ~~考虑到安全问题，暂不提供安装包~~，可通过上述方式安装，或者与我联系提供安装包
 
-[dytt.apk.zip](https://github.com/XboxYan/DYTT/files/2878562/app-armeabi-v7a-release.zip)
+[dytt.apk](https://github.com/XboxYan/DYTT/releases/download/v2.2/app-armeabi-v7a-release.apk)
 
 `android`下载解压安装。`ios`自行编译安装。
 
@@ -125,11 +124,11 @@ react-native run-android
 
 ### 搜索
 
-![搜索](./screenshot/11.png)
+![搜索](./screenshot/6.png)
 
 ### 搜索结果
 
-![搜索结果](./screenshot/7.png)
+![搜索结果](./screenshot/11.png)
 
 ### 影片筛选
 
